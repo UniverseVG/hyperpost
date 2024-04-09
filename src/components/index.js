@@ -13,6 +13,7 @@ import PostForm from "./post-form/PostForm";
 import Select from "./Select";
 import AuthLayout from "./AuthLayout";
 import PostSkeleton from "./PostSkeleton";
+import EdgeCase from "./EdgeCase";
 export {
   Header,
   Footer,
@@ -29,4 +30,5 @@ export {
   Select,
   AuthLayout,
   PostSkeleton,
+  EdgeCase,
 };

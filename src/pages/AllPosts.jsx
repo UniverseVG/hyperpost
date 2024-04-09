@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, PostCard, PostSkeleton } from "../components";
+import { Container, EdgeCase, PostCard, PostSkeleton } from "../components";
 import appwriteService from "../appwrite/config";
 import { staticArray } from "../constants";
 
@@ -12,6 +12,16 @@ function AllPosts() {
       setPosts(posts.documents);
     }
   });
+
+  if (posts.length === 0 && !loading) {
+    return (
+      <div className="w-full py-8 mt-4 text-center">
+        <Container>
+          <EdgeCase />
+        </Container>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full py-8">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { Button, Container } from "../components";
+import { Button, Container, PostSkeleton } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 
@@ -9,7 +9,7 @@ export default function Post() {
   const [post, setPost] = useState(null);
   const { slug } = useParams();
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
   const userData = useSelector((state) => state.auth.userData);
 
   const isAuthor = post && userData ? post.userId === userData.$id : false;
@@ -17,6 +17,7 @@ export default function Post() {
   useEffect(() => {
     if (slug) {
       appwriteService.getPost(slug).then((post) => {
+        setLoading(false);
         if (post) setPost(post);
         else navigate("/");
       });
@@ -32,7 +33,7 @@ export default function Post() {
     });
   };
 
-  return post ? (
+  return post && !loading ? (
     <div className="py-8">
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
@@ -61,5 +62,11 @@ export default function Post() {
         <div className="browser-css">{parse(post.content)}</div>
       </Container>
     </div>
-  ) : null;
+  ) : (
+    <div className="py-8">
+      <Container>
+        <PostSkeleton width={"100%"} imageHeight={600} />
+      </Container>
+    </div>
+  );
 }

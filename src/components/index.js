@@ -12,6 +12,7 @@ import PostCard from "./PostCard";
 import PostForm from "./post-form/PostForm";
 import Select from "./Select";
 import AuthLayout from "./AuthLayout";
+import PostSkeleton from "./PostSkeleton";
 export {
   Header,
   Footer,
@@ -27,4 +28,5 @@ export {
   PostForm,
   Select,
   AuthLayout,
+  PostSkeleton,
 };

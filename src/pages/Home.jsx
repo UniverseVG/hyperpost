@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import appwriteService from "../appwrite/config";
-import { Container, PostCard } from "../components";
+import { Container, PostCard, PostSkeleton } from "../components";
+import { staticArray } from "../constants";
 
 function Home() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     appwriteService.getPosts().then((posts) => {
+      setLoading(false);
       if (posts) {
         setPosts(posts.documents);
       }
     });
   }, []);
 
-  if (posts.length === 0) {
+  if (posts.length === 0 && !loading) {
     return (
       <div className="w-full py-8 mt-4 text-center">
         <Container>
@@ -32,11 +35,17 @@ function Home() {
     <div className="w-full py-8">
       <Container>
         <div className="flex flex-wrap">
-          {posts.map((post) => (
-            <div key={post.$id} className="p-2 w-1/4">
-              <PostCard {...post} />
-            </div>
-          ))}
+          {loading
+            ? staticArray.map((post) => (
+                <div key={post} className="p-2 w-1/4">
+                  <PostSkeleton />
+                </div>
+              ))
+            : posts.map((post) => (
+                <div key={post.$id} className="p-2 w-1/4">
+                  <PostCard {...post} />
+                </div>
+              ))}
         </div>
       </Container>
     </div>
